@@ -13,3 +13,5 @@ import { PrismaClient } from "@prisma/client";
 const client = global.prismadb || new PrismaClient();
 //in production this last issue doesn't matter
 if(process.env.NODE_ENV === 'production') global.prismadb = client;
+
+export default client
