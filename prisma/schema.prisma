@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  // proper way to make a default mongodb id type
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  // ? means it's optional
+  image          String?
+  // optional because we may implement oauth (same for password)
+  email          String?   @unique
+  emailVerified  DateTime?
+  hashedPassword String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  // array of Strings, more specifically ids pointing towards netflix shows
+  favoriteIds    String[]  @db.ObjectId
+  sessions       Session[]
+  accounts       Account[]
+}
+
+//model specifically for people that sign in using google or github with oauth
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+
+  // create relation between user and account
+  // Cascade means that when a record in the Account table is deleted, 
+  // all records in the user table that reference that record will also be deleted. 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // In this case, the @@unique directive specifies that the combination of the provider and providerAccountId 
+  // fields in the current table must be unique. 
+  // This means that no two rows in the table can have the same provider and providerAccountId values.
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String   @unique
+  userId       String   @db.ObjectId
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  identifier String
+  token String @unique
+  expires DateTime
+
+  @@unique([identifier, token])
+}
+
+model Movie {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  description String
+  videoUrl String
+  thumbnailUrl String
+  genre String
+  duration String
+}
