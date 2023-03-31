@@ -32,7 +32,8 @@ export default function Home() {
   //by default data (renamed to movies) is empty array but we replace it with hook return val 
   const { data: movies = [] } = useMovieList()
   const { data: user } = useCurrentUser()
-  const { data: favorites } = useFavorites();
+  const { data: favorites = [] } = useFavorites();
+
   return (
     <>
       <Navbar />

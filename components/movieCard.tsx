@@ -66,7 +66,7 @@ const MovieCard = ({ data }: MovieCardProps) => {
                         <div className="flex items-center justify-center w-6 h-6 transition bg-white rounded-full cursor-pointer lg:w-10 lg:h-10 hover:bg-neutral-300">
                             <BsFillPlayFill size={30} />
                         </div>
-                        <FavoriteButton movieId={data?.movieId}/>
+                        <FavoriteButton movieId={data?.id}/>
                     </div>
                     <p className="mt-4 font-semibold text-green-400">
                         New <span className="text-white">2023</span>

@@ -27,9 +27,8 @@ const FavoriteButton = ({ movieId }: FavoritebuttonProps) => {
             //have to put { data: {movieId} } for axios delete
             response = await axios.delete('/api/favorite', { data: { movieId } });
         } else {
-
             //no need for explicit {data: {movieId}} in axios post requests 
-            response = await axios.post('/api/favorite', { movieId });
+            response = await axios.post('/api/favorite',  { movieId } );
         }
 
         // update movies according to whatever the prior axios request was

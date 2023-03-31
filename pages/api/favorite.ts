@@ -4,6 +4,9 @@ import { without } from "lodash";
 import prismadb from "@/lib/prismadb";
 import serverAuth from "@/lib/serverAuth";
 
+interface movieID {
+    movieId:string;
+}
 
 //Function for adding and removing a movie to/from a user's favorite property
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -12,14 +15,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             //get current user
             const { currentUser } = await serverAuth(req);
-
             //post request will contain a movieID that the user wants to add to favorites
-            const { movieId } = req.body;
+            const { movieId }:movieID = req.body;
 
             //get the movie associated with the id
             const existingMovie = await prismadb.movie.findUnique({
                 where: {
-                    id: movieId
+                    id: movieId, 
                 }
             });
 
@@ -34,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 },
                 data: { //and update it 
                     favoriteIds: { //at favoriteIds
-                        push: movieId //by pushing the following data (movieId)
+                        push: movieId, //by pushing the following data (movieId)
                     }
                 }
             })
@@ -51,20 +53,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 }
             })
 
-            if(!existingMovie) {
+            if (!existingMovie) {
                 throw new Error("Invalid ID")
             }
 
             //make an array that mimics currentUser.favoriteIds WITHOUT movieId
             const updatedFavoriteIds = without(currentUser.favoriteIds, movieId)
-            
+
             //Actually update the user with the decreased favId array in DB
             const updatedUser = await prismadb.user.update({
                 where: {
                     email: currentUser.email || '',
                 },
                 data: {
-                    favoriteIds: updatedFavoriteIds
+                    favoriteIds: updatedFavoriteIds,
                 }
             })
 
