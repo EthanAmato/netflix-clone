@@ -21,7 +21,7 @@ const Auth = () => {
     //would be needlessly rerendered with each rerendendering of the page
     const toggleVariant = useCallback(() => {
         setVariant((currentVariant) => currentVariant === 'login' ? 'register' : 'login')
-    }, [variant]
+    }, []
     )
 
     const login = useCallback(async () => {
