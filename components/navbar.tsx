@@ -94,5 +94,5 @@ const Navbar = () => {
         </nav >
     )
 }
-
+// changed images folder name
 export default Navbar;
