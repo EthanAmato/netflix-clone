@@ -63,7 +63,7 @@ const Auth = () => {
             <div className="bg-black w-full h-full lg:bg-opacity-50">
                 {/* padding x + padding y  */}
                 <nav className="px-12 py-5">
-                    <img src="/images/logo.png" alt="logo" className="h-12" />
+                    <img src="/Images/logo.png" alt="logo" className="h-12" />
                 </nav>
                 <div className="flex justify-center">
                     {/* lg:w-2/5 means to give width: 40% on screens <1024px in width */}

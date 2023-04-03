@@ -51,7 +51,7 @@ const Profiles = () => {
                         ">
                 {/* Group hover means that when u hover over the parent div with 'group' class, 
                           it applies the following styles (cursor-pointer, border-white)*/}
-                <img src="/images/default-red.png" alt="Profile" />
+                <img src="/Images/default-red.png" alt="Profile" />
               </div>
               <div
                 className="
