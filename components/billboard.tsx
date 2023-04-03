@@ -1,11 +1,18 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import useBillboard from '@/hooks/useBillboard'
 import { AiOutlineInfoCircle } from 'react-icons/ai'
 import PlayButton from './playButton'
+import useInfoModal from '@/hooks/useInfoModal'
 
 const Billboard = () => {
-
     const { data } = useBillboard()
+    const { openModal } = useInfoModal()
+    const handleOpenModal = useCallback(
+        () => {
+            openModal(data?.id);
+        },
+        [openModal, data?.id],
+    )
 
     return (
         // the aspect ratio of the pngs we are loading the movies in with
@@ -50,8 +57,10 @@ const Billboard = () => {
                     {data?.description}
                 </p>
                 <div className='flex flex-row items-center mt-3 md:mt-4 gap-3'>
-                    <PlayButton movieId={data?.id}/>
-                    <button className='
+                    <PlayButton movieId={data?.id} />
+                    <button 
+                    onClick={handleOpenModal}
+                    className='
                             bg-white
                             text-white
                             bg-opacity-30
@@ -66,9 +75,9 @@ const Billboard = () => {
                             items-center
                             hover:bg-opacity-20
                             transition'>
-                            <AiOutlineInfoCircle className='mr-1'/>
-                                More Info
-                            </button>
+                        <AiOutlineInfoCircle className='mr-1' />
+                        More Info
+                    </button>
                 </div>
             </div>
         </div>
